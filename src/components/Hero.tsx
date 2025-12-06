@@ -1,0 +1,221 @@
+import { useState } from "react";
+import { ArrowRight, Calendar, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+
+export function Hero() {
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Formulario enviado:", formData);
+    setFormData({ name: "", email: "", phone: "", message: "" });
+    setShowContactForm(false);
+  };
+
+  return (
+    <section className="relative z-10 px-6 py-20 md:py-32 lg:py-40 pt-32 md:pt-40">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Content */}
+          <div className="space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#00E4FF]/10 to-[#147BFF]/10 border border-[#00E4FF]/20"
+            >
+              <div className="w-2 h-2 rounded-full bg-[#00E4FF] animate-pulse" />
+              <span className="text-sm text-gray-700">Empieza tu transformación digital</span>
+            </motion.div>
+            
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-5xl md:text-6xl lg:text-7xl tracking-tight text-gray-900"
+            >
+              Automatización,<br />
+              Inteligencia,<br />
+              <span className="bg-gradient-to-r from-[#00E4FF] to-[#147BFF] bg-clip-text text-transparent">
+                Eficiencia.
+              </span>
+            </motion.h1>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl text-gray-600 max-w-xl"
+            >
+              Zynera diseña flujos de trabajo con IA, chatbots inteligentes y sistemas automatizados para hacer crecer tu negocio.
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <button onClick={() => setShowContactForm(!showContactForm)} className="group relative px-8 py-4 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white rounded-xl overflow-hidden transition-all hover:shadow-lg hover:shadow-[#00E4FF]/25 hover:scale-105">
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  Comenzar
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#147BFF] to-[#00E4FF] opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+            </motion.div>
+          </div>
+          
+          {/* Illustration */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="relative aspect-square max-w-lg mx-auto">
+              {/* Outer glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#00E4FF]/20 to-[#147BFF]/20 rounded-full blur-3xl" />
+              
+              {/* Main circle */}
+              <div className="relative w-full h-full">
+                {/* Orbiting elements */}
+                <div className="absolute inset-0 animate-spin" style={{ animationDuration: '20s' }}>
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-[#00E4FF] to-[#147BFF]" />
+                </div>
+                
+                <div className="absolute inset-8 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}>
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#00E4FF]/60" />
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#147BFF]/60" />
+                </div>
+                
+                {/* Center core */}
+                <div className="absolute inset-1/4 rounded-full bg-gradient-to-br from-[#00E4FF] to-[#147BFF] opacity-10" />
+                <div className="absolute inset-1/3 rounded-full bg-white border-2 border-[#00E4FF]/30 backdrop-blur-sm" />
+                
+                {/* Neural connections */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200">
+                  <circle cx="100" cy="100" r="60" fill="none" stroke="url(#gradient1)" strokeWidth="0.5" opacity="0.4" />
+                  <circle cx="100" cy="100" r="80" fill="none" stroke="url(#gradient1)" strokeWidth="0.5" opacity="0.3" />
+                  
+                  <defs>
+                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#00E4FF" />
+                      <stop offset="100%" stopColor="#147BFF" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Contact Form - Appears inside the main card section */}
+        <AnimatePresence>
+          {showContactForm && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="mt-12 max-w-2xl mx-auto"
+            >
+              <div className="relative bg-white rounded-2xl border border-[#E4E7EB] shadow-lg overflow-hidden">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-[#00E4FF]/10 to-[#147BFF]/10 px-8 py-6 border-b border-[#E4E7EB] flex items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900">¿Hablamos de tu proyecto?</h3>
+                    <p className="text-gray-600 text-sm mt-1">Cuéntanos sobre tu negocio y cómo podemos ayudarte</p>
+                  </div>
+                  <button
+                    onClick={() => setShowContactForm(false)}
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="p-8 space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">Nombre</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Tu nombre"
+                        className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="tu@email.com"
+                        className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Teléfono (opcional)</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+34 123 456 789"
+                      className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Cuéntanos sobre tu proyecto</label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      placeholder="¿Qué desafíos tienes? ¿Qué esperas lograr?"
+                      rows={5}
+                      className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors resize-none"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
+                    <button
+                      type="submit"
+                      className="flex-1 px-6 py-3 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#00E4FF]/25 transition-all hover:scale-105"
+                    >
+                      Enviar mensaje
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowContactForm(false)}
+                      className="flex-1 px-6 py-3 border border-[#E4E7EB] text-gray-700 font-medium rounded-lg hover:bg-[#F9FAFB] transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+}
