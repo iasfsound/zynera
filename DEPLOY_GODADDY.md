@@ -2,54 +2,126 @@
 
 Esta guía te ayudará a desplegar tu aplicación React en tu dominio de GoDaddy.
 
-## Opción 1: Subir archivos vía cPanel File Manager (Recomendado)
+## ⚡ Opción 1: Subir archivos vía FTP (RECOMENDADO - Más fácil y confiable)
 
-### Paso 1: Acceder a cPanel
-1. Inicia sesión en tu cuenta de GoDaddy
-2. Ve a "Mi Producto" y selecciona tu hosting
-3. Haz clic en "Administrar" y luego en "cPanel"
+Esta es la forma más sencilla y confiable de subir tus archivos.
 
-### Paso 2: Preparar los archivos
+### Paso 1: Preparar los archivos
 1. Asegúrate de que tu proyecto esté compilado:
    ```bash
    npm run build
    ```
 2. Los archivos listos para subir están en la carpeta `build/`
 
-### Paso 3: Subir archivos
-1. En cPanel, abre "Administrador de archivos" (File Manager)
-2. Navega a la carpeta `public_html` (o `www` si prefieres)
-3. Si ya tienes archivos ahí, puedes:
-   - Crear una subcarpeta para tu proyecto
-   - O reemplazar los archivos existentes
-4. Sube TODOS los archivos de la carpeta `build/`:
-   - `index.html`
-   - Carpeta `assets/` completa
-   - Archivo `.htaccess` (ya incluido en build/)
-5. Asegúrate de que el archivo `.htaccess` esté en la raíz de `public_html`
+### Paso 2: Obtener credenciales FTP de GoDaddy
 
-### Paso 4: Verificar permisos
-- Los archivos deben tener permisos 644
-- Las carpetas deben tener permisos 755
+**Método A: Desde el panel de GoDaddy (nuevo diseño)**
+1. Inicia sesión en [godaddy.com](https://godaddy.com)
+2. Ve a "Mis Productos" → Selecciona tu hosting
+3. Haz clic en "Administrar"
+4. Busca la sección "FTP" o "Credenciales FTP"
+5. Anota o crea un usuario FTP y contraseña
+6. Anota el **servidor FTP** (generalmente algo como `ftp.tudominio.com` o una IP)
 
-## Opción 2: Subir archivos vía FTP
+**Método B: Desde cPanel (si tienes acceso)**
+1. Accede a cPanel (ver instrucciones abajo)
+2. Busca "Cuentas FTP" o "FTP Accounts"
+3. Si no tienes una cuenta, crea una nueva
+4. Anota: **Servidor FTP**, **Usuario** y **Contraseña**
 
-### Paso 1: Obtener credenciales FTP
-1. En cPanel, ve a "Cuentas FTP"
-2. Crea una cuenta FTP o usa la existente
-3. Anota: servidor FTP, usuario y contraseña
+### Paso 3: Descargar e instalar FileZilla (Cliente FTP gratuito)
 
-### Paso 2: Conectar con cliente FTP
-Usa un cliente FTP como:
-- **FileZilla** (gratis)
-- **WinSCP** (Windows)
-- **Cyberduck** (Mac/Windows)
+1. Ve a [filezilla-project.org](https://filezilla-project.org/download.php?type=client)
+2. Descarga FileZilla Client para Windows
+3. Instálalo siguiendo las instrucciones
 
-### Paso 3: Subir archivos
-1. Conéctate al servidor FTP
-2. Navega a `public_html` (o `www`)
-3. Sube todos los archivos de la carpeta `build/`
-4. Asegúrate de subir el archivo `.htaccess`
+### Paso 4: Conectar y subir archivos con FileZilla
+
+1. **Abre FileZilla**
+2. **Conecta al servidor:**
+   - En la parte superior, ingresa:
+     - **Servidor (Host)**: El servidor FTP que anotaste (ej: `ftp.tudominio.com`)
+     - **Usuario**: Tu usuario FTP
+     - **Contraseña**: Tu contraseña FTP
+     - **Puerto**: 21 (o el que te indique GoDaddy)
+   - Haz clic en "Conexión rápida" o presiona Enter
+
+3. **Navega a la carpeta correcta:**
+   - En el panel derecho (servidor remoto), navega a:
+     - `public_html` (más común)
+     - O `www` (algunos servidores)
+     - O la carpeta raíz si es un subdominio
+
+4. **Sube los archivos:**
+   - En el panel izquierdo (tu computadora), navega a tu carpeta `build/`
+   - Selecciona TODOS los archivos y carpetas:
+     - `index.html`
+     - Carpeta `assets/` (arrastra toda la carpeta)
+     - Archivo `.htaccess` (si existe)
+   - **Arrástralos** al panel derecho (servidor) o haz clic derecho → "Subir"
+   - Espera a que termine la transferencia
+
+5. **Verifica:**
+   - Asegúrate de que todos los archivos se hayan subido correctamente
+   - El `index.html` debe estar en la raíz de `public_html`
+   - La carpeta `assets/` debe estar dentro de `public_html`
+
+## Opción 2: Subir archivos vía cPanel File Manager
+
+### Paso 1: Acceder a cPanel
+
+**Si tienes el panel nuevo de GoDaddy:**
+1. Inicia sesión en [godaddy.com](https://godaddy.com)
+2. Ve a "Mis Productos" → Selecciona tu hosting
+3. Haz clic en "Administrar"
+4. Busca un botón o enlace que diga "cPanel" o "Panel de control"
+5. Si no lo ves, busca "Herramientas avanzadas" o "Advanced Tools"
+
+**Si tienes acceso directo a cPanel:**
+1. Ve a `tudominio.com/cpanel` (reemplaza con tu dominio)
+2. O usa la URL que te proporcionó GoDaddy
+
+### Paso 2: Encontrar File Manager
+
+En cPanel, busca una de estas opciones:
+- **"File Manager"** (Administrador de archivos)
+- **"Archivos"** → "Administrador de archivos"
+- **Icono de carpeta** con el texto "File Manager"
+- Puede estar en la sección "Archivos" o "Files"
+
+**Si no encuentras File Manager:**
+- Algunos planes de GoDaddy no incluyen cPanel completo
+- En ese caso, **usa la Opción 1 (FTP)** que es más confiable
+
+### Paso 3: Preparar los archivos
+1. Asegúrate de que tu proyecto esté compilado:
+   ```bash
+   npm run build
+   ```
+2. Los archivos listos para subir están en la carpeta `build/`
+
+### Paso 4: Subir archivos en File Manager
+
+1. **Abre File Manager** en cPanel
+2. **Navega a `public_html`:**
+   - En el panel izquierdo, haz clic en `public_html`
+   - O busca la carpeta `www` si no existe `public_html`
+3. **Sube los archivos:**
+   - Haz clic en el botón **"Subir"** o **"Upload"** (generalmente en la barra superior)
+   - Selecciona todos los archivos de tu carpeta `build/`:
+     - `index.html`
+     - Todos los archivos dentro de `assets/`
+     - Archivo `.htaccess` (si existe)
+   - **Nota:** Puede que tengas que subir los archivos de `assets/` uno por uno o crear la carpeta primero
+4. **Crea la carpeta assets si es necesario:**
+   - Si no puedes subir la carpeta completa, crea una carpeta llamada `assets`
+   - Luego sube los archivos dentro de esa carpeta
+
+### Paso 5: Verificar permisos
+- Selecciona los archivos y carpetas
+- Haz clic derecho → "Cambiar permisos" o "Change Permissions"
+- Archivos: 644
+- Carpetas: 755
 
 ## Opción 3: Usar Git (si GoDaddy lo soporta)
 
