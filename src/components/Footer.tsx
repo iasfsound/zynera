@@ -1,4 +1,6 @@
 import { Mail } from "lucide-react";
+import LogoColor from "../assets/logos/Logo color.png";
+import Letras from "../assets/logos/LETRAS.png";
 
 export function Footer({ setCurrentPage }: { setCurrentPage: (page: "home" | "privacy" | "terms" | "legal" | "cookies") => void }) {
   return (
@@ -9,12 +11,12 @@ export function Footer({ setCurrentPage }: { setCurrentPage: (page: "home" | "pr
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
               <img 
-                src="/src/assets/logos/Logo color.png" 
+                src={LogoColor} 
                 alt="Zynera Logo" 
                 className="h-10"
               />
               <img 
-                src="/src/assets/logos/LETRAS.png" 
+                src={Letras} 
                 alt="Zynera" 
                 className="h-8"
               />
