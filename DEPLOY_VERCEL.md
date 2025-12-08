@@ -45,16 +45,15 @@ Vercel debería detectar automáticamente que es un proyecto Vite. Verifica que:
 
 Si quieres usar tu dominio de GoDaddy:
 
-1. En el dashboard de Vercel, ve a tu proyecto
-2. Ve a **"Settings"** → **"Domains"**
-3. Agrega tu dominio (ej: `tudominio.com`)
-4. Sigue las instrucciones para configurar los DNS:
-   - Ve a GoDaddy → Administrar DNS
-   - Agrega un registro CNAME:
-     - **Tipo**: CNAME
-     - **Nombre**: @ (o www)
-     - **Valor**: `cname.vercel-dns.com`
-   - O agrega registros A según las instrucciones de Vercel
+📖 **Ver la guía completa**: Consulta `CONECTAR_DOMINIO_GODADDY.md` para instrucciones detalladas paso a paso.
+
+**Resumen rápido:**
+1. En Vercel: **Settings** → **Domains** → Agrega tu dominio
+2. En GoDaddy: **Administrar DNS** → Agrega los registros que Vercel te indique:
+   - Para dominio raíz (`@`): 4 registros **A** con las IPs de Vercel
+   - Para `www`: 1 registro **CNAME** apuntando a `cname.vercel-dns.com`
+3. Espera la propagación DNS (1-24 horas)
+4. ¡Listo! Vercel configurará SSL automáticamente
 
 ## Opción 2: Despliegue con Vercel CLI
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Hero } from "./components/Hero";
+import { FlowFinder } from "./components/FlowFinder";
 import { Services } from "./components/Services";
 import { HowItWorks } from "./components/HowItWorks";
 import { WhyZynera } from "./components/WhyZynera";
@@ -27,6 +28,7 @@ export default function App() {
         {currentPage === "home" ? (
           <>
             <Hero />
+            <FlowFinder />
             <Services />
             <HowItWorks />
             <WhyZynera />

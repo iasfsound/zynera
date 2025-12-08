@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { useForm } from "../context/FormContext";
 import LogoColor from "../assets/logos/Logo color.png";
 import Letras from "../assets/logos/LETRAS.png";
+import { AnimatedGradientButton } from "./AnimatedGradientButton";
 
 export function Navbar({ setCurrentPage }: { setCurrentPage: (page: "home" | "privacy" | "terms" | "legal" | "cookies") => void }) {
   const { setShowCtaForm } = useForm();
@@ -103,11 +104,11 @@ export function Navbar({ setCurrentPage }: { setCurrentPage: (page: "home" | "pr
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <button 
+            <AnimatedGradientButton 
               onClick={handleBeginClick}
-              className="px-6 py-2.5 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white rounded-lg hover:shadow-lg hover:shadow-[#00E4FF]/25 transition-all hover:scale-105">
-              Comenzar
-            </button>
+              size="sm"
+              className="rounded-lg"
+            />
           </div>
 
           {/* Mobile Menu Button */}
@@ -150,11 +151,11 @@ export function Navbar({ setCurrentPage }: { setCurrentPage: (page: "home" | "pr
             >
               Testimonios
             </button>
-            <button 
+            <AnimatedGradientButton 
               onClick={handleBeginClick}
-              className="w-full px-6 py-2.5 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white rounded-lg">
-              Comenzar
-            </button>
+              size="sm"
+              className="w-full rounded-lg"
+            />
           </div>
         )}
       </div>

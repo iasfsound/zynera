@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, Calendar, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { AnimatedGradientButton } from "./AnimatedGradientButton";
 
 export function Hero() {
   const [showContactForm, setShowContactForm] = useState(false);
@@ -11,11 +12,32 @@ export function Hero() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Formulario enviado:", formData);
+    
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || "/api";
+      const response = await fetch(`${apiUrl}/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          source: "hero",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el formulario");
+      }
+
     setFormData({ name: "", email: "", phone: "", message: "" });
     setShowContactForm(false);
+    } catch (error) {
+      console.error("Error al enviar:", error);
+      alert("Hubo un error al enviar el formulario. Por favor, intenta de nuevo.");
+    }
   };
 
   return (
@@ -62,13 +84,10 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <button onClick={() => setShowContactForm(!showContactForm)} className="group relative px-8 py-4 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white rounded-xl overflow-hidden transition-all hover:shadow-lg hover:shadow-[#00E4FF]/25 hover:scale-105">
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  Comenzar
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#147BFF] to-[#00E4FF] opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
+              <AnimatedGradientButton 
+                onClick={() => setShowContactForm(!showContactForm)}
+                size="md"
+              />
             </motion.div>
           </div>
           

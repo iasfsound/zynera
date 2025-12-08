@@ -3,6 +3,7 @@ import { ArrowRight, Sparkles, X, Loader2 } from "lucide-react";
 import { motion } from "motion/react";
 import { ScrollReveal } from "./ScrollReveal";
 import { useForm } from "../context/FormContext";
+import { AnimatedGradientButton } from "./AnimatedGradientButton";
 
 export function CTA() {
   const { showCtaForm, setShowCtaForm } = useForm();
@@ -33,8 +34,22 @@ export function CTA() {
     setIsLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Formulario enviado:", formData);
+      const apiUrl = import.meta.env.VITE_API_URL || "/api";
+      const response = await fetch(`${apiUrl}/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          source: "cta",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el formulario");
+      }
+
       setSubmitted(true);
 
       setTimeout(() => {
@@ -50,6 +65,7 @@ export function CTA() {
       }, 2000);
     } catch (error) {
       console.error("Error al enviar:", error);
+      alert("Hubo un error al enviar el formulario. Por favor, intenta de nuevo.");
     } finally {
       setIsLoading(false);
     }
@@ -89,15 +105,11 @@ export function CTA() {
                     Únete a las empresas que ya están aprovechando el poder de la automatización inteligente
                   </p>
 
-                  <button 
+                  <AnimatedGradientButton 
                     onClick={() => setShowForm(true)}
-                    className="group relative px-10 py-5 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white rounded-xl overflow-hidden transition-all hover:shadow-2xl hover:shadow-[#00E4FF]/30 hover:scale-105">
-                    <span className="relative z-10 flex items-center justify-center gap-2 text-lg">
-                      Comenzar
-                      <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#147BFF] to-[#00E4FF] opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </button>
+                    size="lg"
+                    className="hover:shadow-2xl hover:shadow-[#00E4FF]/30"
+                  />
                 </motion.div>
               ) : submitted ? (
                 <motion.div

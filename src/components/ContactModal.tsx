@@ -33,10 +33,22 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     setIsLoading(true);
 
     try {
-      // Simular envío de formulario
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      console.log("Formulario enviado:", formData);
+      const apiUrl = import.meta.env.VITE_API_URL || "/api";
+      const response = await fetch(`${apiUrl}/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          source: "contact-modal",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el formulario");
+      }
+
       setSubmitted(true);
       
       setTimeout(() => {
@@ -52,6 +64,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       }, 2000);
     } catch (error) {
       console.error("Error al enviar:", error);
+      alert("Hubo un error al enviar el formulario. Por favor, intenta de nuevo.");
     } finally {
       setIsLoading(false);
     }
