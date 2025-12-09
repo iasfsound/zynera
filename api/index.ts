@@ -5,6 +5,7 @@ import { diagnosisRouter } from "./src/routes/diagnosis.js";
 import { leadsRouter } from "./src/routes/leads.js";
 import { contactRouter } from "./src/routes/contact.js";
 import { budgetRouter } from "./src/routes/budget.js";
+import { chatRouter } from "./src/routes/chat.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/", diagnosisRouter);
 app.use("/", leadsRouter);
 app.use("/", contactRouter);
 app.use("/", budgetRouter);
+app.use("/", chatRouter);
 
 // Error handling
 app.use((err: Error, req: Request, res: Response, next: express.NextFunction) => {

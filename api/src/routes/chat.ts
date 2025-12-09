@@ -1,15 +1,19 @@
-// Individual serverless function for /api/chat
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { generateChatResponse } from './src/services/openaiChatService.js';
+import express from "express";
+import { generateChatResponse } from "../services/openaiChatService.js";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Only allow POST
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+const router = express.Router();
 
+interface ChatRequest {
+  message: string;
+  conversationHistory?: Array<{
+    role: "user" | "assistant";
+    content: string;
+  }>;
+}
+
+router.post("/chat", async (req, res) => {
   try {
-    const { message, conversationHistory } = req.body;
+    const { message, conversationHistory }: ChatRequest = req.body;
 
     // Validación
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
@@ -42,5 +46,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       message: "Error al procesar tu mensaje. Por favor, intenta más tarde.",
     });
   }
-}
+});
+
+export { router as chatRouter };
 
