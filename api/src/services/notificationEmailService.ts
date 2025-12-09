@@ -201,7 +201,9 @@ export async function sendContactNotification(data: ContactFormData): Promise<bo
   // Usar Resend si está configurado (preferido)
   if (resendInstance) {
     try {
-      await resendInstance.emails.send({
+      console.log(`📧 Enviando notificación a: ${recipientEmail}`);
+      console.log(`   Desde: ${fromName} <${fromEmail}>`);
+      const result = await resendInstance.emails.send({
         from: `${fromName} <${fromEmail}>`,
         to: recipientEmail,
         reply_to: data.email, // Para que puedas responder directamente
@@ -359,7 +361,9 @@ export async function sendContactConfirmation(data: ContactFormData): Promise<bo
   const fromName = process.env.EMAIL_FROM_NAME || "Zynera";
 
   try {
-    await resendInstance.emails.send({
+    console.log(`📧 Enviando confirmación a cliente: ${data.email}`);
+    console.log(`   Desde: ${fromName} <${fromEmail}>`);
+    const result = await resendInstance.emails.send({
       from: `${fromName} <${fromEmail}>`,
       to: data.email,
       subject: `Hemos recibido tu mensaje - Zynera`,
@@ -382,6 +386,7 @@ Zynera - Automatización e Inteligencia Artificial
     });
 
     console.log("✅ Email de confirmación enviado al cliente:", data.email);
+    console.log(`   Resultado:`, result);
     return true;
   } catch (error: any) {
     console.error("❌ Error enviando email de confirmación:", error);

@@ -5,18 +5,24 @@ let base: Airtable.Base | null = null;
 function initializeAirtable() {
   if (base) return base; // Ya inicializado
   
-  if (process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID) {
-    try {
-      const airtable = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY });
-      base = airtable.base(process.env.AIRTABLE_BASE_ID);
-      console.log("✅ Airtable inicializado correctamente");
-      return base;
-    } catch (error) {
-      console.warn("Error inicializando Airtable:", error);
-      return null;
-    }
-  } else {
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  const baseId = process.env.AIRTABLE_BASE_ID;
+  
+  if (!apiKey || !baseId) {
     console.warn("⚠️  Airtable no configurado. Las variables AIRTABLE_API_KEY y AIRTABLE_BASE_ID son requeridas.");
+    console.warn(`   AIRTABLE_API_KEY: ${apiKey ? '✅ Configurada' : '❌ No configurada'}`);
+    console.warn(`   AIRTABLE_BASE_ID: ${baseId ? '✅ Configurada' : '❌ No configurada'}`);
+    return null;
+  }
+  
+  try {
+    const airtable = new Airtable({ apiKey });
+    base = airtable.base(baseId);
+    console.log("✅ Airtable inicializado correctamente");
+    console.log(`   Base ID: ${baseId.substring(0, 10)}...`);
+    return base;
+  } catch (error) {
+    console.error("❌ Error inicializando Airtable:", error);
     return null;
   }
 }
