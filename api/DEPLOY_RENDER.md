@@ -64,7 +64,7 @@ Una vez que Render despliegue tu backend, obtendrás una URL como:
 2. Settings → Environment Variables
 3. Añade:
    - **Key**: `VITE_API_URL`
-   - **Value**: `https://zynera-api.onrender.com/api`
+   - **Value**: `https://zynera-api.onrender.com/api` (⚠️ **IMPORTANTE**: Añade `/api` al final de la URL de Render)
    - **Environment**: Production, Preview, Development (según necesites)
 
 ### 6. Verificar el Despliegue
