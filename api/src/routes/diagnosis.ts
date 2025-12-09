@@ -10,7 +10,7 @@ interface DiagnosisRequest {
   }>;
 }
 
-router.post("/diagnosis", async (req, res) => {
+router.post("/diagnosis", async (req: express.Request, res: express.Response) => {
   const { answers }: DiagnosisRequest = req.body;
 
   if (!answers || !Array.isArray(answers) || answers.length === 0) {

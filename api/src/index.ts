@@ -19,7 +19,7 @@ const allowedOrigins = process.env.FRONTEND_URL
   : ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Permitir requests sin origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
     
@@ -34,7 +34,7 @@ app.use(cors({
 app.use(express.json());
 
 // Health check
-app.get("/health", (req, res) => {
+app.get("/health", (req: express.Request, res: express.Response) => {
   res.json({ status: "ok", message: "Zynera API is running" });
 });
 

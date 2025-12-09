@@ -13,7 +13,7 @@ interface ContactRequest {
   source?: string; // "hero", "cta", "contact-modal", etc.
 }
 
-router.post("/contact", async (req, res) => {
+router.post("/contact", async (req: express.Request, res: express.Response) => {
   try {
     const { name, email, phone, company, message, source }: ContactRequest = req.body;
 

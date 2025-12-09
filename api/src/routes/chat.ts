@@ -11,7 +11,7 @@ interface ChatRequest {
   }>;
 }
 
-router.post("/chat", async (req, res) => {
+router.post("/chat", async (req: express.Request, res: express.Response) => {
   try {
     const { message, conversationHistory }: ChatRequest = req.body;
 

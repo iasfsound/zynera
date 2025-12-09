@@ -30,7 +30,7 @@ interface LeadRequest {
   }>;
 }
 
-router.post("/leads", async (req, res) => {
+router.post("/leads", async (req: express.Request, res: express.Response) => {
   try {
     const { name, email, phone, diagnosis, budget, mode, answers }: LeadRequest = req.body;
 

@@ -10,7 +10,7 @@ interface BudgetRequest {
   }>;
 }
 
-router.post("/budget", async (req, res) => {
+router.post("/budget", async (req: express.Request, res: express.Response) => {
   const { answers }: BudgetRequest = req.body;
 
   if (!answers || !Array.isArray(answers) || answers.length === 0) {
