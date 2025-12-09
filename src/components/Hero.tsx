@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { ArrowRight, Calendar, X } from "lucide-react";
+import { ArrowRight, Calendar, X, Loader2, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AnimatedGradientButton } from "./AnimatedGradientButton";
 
 export function Hero() {
   const [showContactForm, setShowContactForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -14,6 +16,7 @@ export function Hero() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
     try {
       const apiUrl = import.meta.env.VITE_API_URL || "/api";
@@ -32,11 +35,18 @@ export function Hero() {
         throw new Error("Error al enviar el formulario");
       }
 
-    setFormData({ name: "", email: "", phone: "", message: "" });
-    setShowContactForm(false);
+      setSubmitted(true);
+
+      setTimeout(() => {
+        setFormData({ name: "", email: "", phone: "", message: "" });
+        setSubmitted(false);
+        setShowContactForm(false);
+      }, 2000);
     } catch (error) {
       console.error("Error al enviar:", error);
       alert("Hubo un error al enviar el formulario. Por favor, intenta de nuevo.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -160,76 +170,118 @@ export function Hero() {
                   </button>
                 </div>
 
-                {/* Form */}
-                <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">Nombre</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Tu nombre"
-                        className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="tu@email.com"
-                        className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Teléfono (opcional)</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="+34 123 456 789"
-                      className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Cuéntanos sobre tu proyecto</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="¿Qué desafíos tienes? ¿Qué esperas lograr?"
-                      rows={5}
-                      className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors resize-none"
-                      required
-                    />
-                  </div>
-
-                  <div className="flex gap-4 pt-4">
-                    <button
-                      type="submit"
-                      className="flex-1 px-6 py-3 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#00E4FF]/25 transition-all hover:scale-105"
+                {/* Form or Success Message */}
+                <AnimatePresence mode="wait">
+                  {submitted ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                      className="p-8 text-center space-y-4"
                     >
-                      Enviar mensaje
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowContactForm(false)}
-                      className="flex-1 px-6 py-3 border border-[#E4E7EB] text-gray-700 font-medium rounded-lg hover:bg-[#F9FAFB] transition-colors"
+                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[#00E4FF]/20 to-[#147BFF]/20 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] rounded-full flex items-center justify-center">
+                          <CheckCircle2 className="w-5 h-5 text-white" />
+                        </div>
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900">¡Mensaje enviado!</h3>
+                      <p className="text-gray-600">
+                        Gracias por contactarnos. Te responderemos lo antes posible.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <motion.form
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      onSubmit={handleSubmit}
+                      className="p-8 space-y-6"
                     >
-                      Cancelar
-                    </button>
-                  </div>
-                </form>
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Nombre</label>
+                          <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            placeholder="Tu nombre"
+                            className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                            required
+                            disabled={isLoading}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Email</label>
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            placeholder="tu@email.com"
+                            className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                            required
+                            disabled={isLoading}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Teléfono (opcional)</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="+34 123 456 789"
+                          className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                          disabled={isLoading}
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Cuéntanos sobre tu proyecto</label>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          placeholder="¿Qué desafíos tienes? ¿Qué esperas lograr?"
+                          rows={5}
+                          className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors resize-none"
+                          required
+                          disabled={isLoading}
+                        />
+                      </div>
+
+                      <div className="flex gap-4 pt-4">
+                        <button
+                          type="submit"
+                          disabled={isLoading}
+                          className="flex-1 px-6 py-3 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#00E4FF]/25 transition-all hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+                        >
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              Enviando...
+                            </>
+                          ) : (
+                            "Enviar mensaje"
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowContactForm(false)}
+                          disabled={isLoading}
+                          className="flex-1 px-6 py-3 border border-[#E4E7EB] text-gray-700 font-medium rounded-lg hover:bg-[#F9FAFB] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           )}

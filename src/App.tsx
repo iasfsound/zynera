@@ -14,6 +14,7 @@ import { PrivacyPolicy } from "./components/PrivacyPolicy";
 import { LegalNotice } from "./components/LegalNotice";
 import { CookiePolicy } from "./components/CookiePolicy";
 import { CookieBanner } from "./components/CookieBanner";
+import { ChatBubble } from "./components/ChatBubble";
 import { FormProvider } from "./context/FormContext";
 
 export default function App() {
@@ -61,6 +62,9 @@ export default function App() {
         {/* Cookie Banner */}
         <CookieBanner setCurrentPage={setCurrentPage} />
       </div>
+      
+      {/* Chat Bubble - Outside overflow-hidden container */}
+      <ChatBubble />
     </FormProvider>
   );
 }

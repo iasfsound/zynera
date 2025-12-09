@@ -1988,3 +1988,76 @@ html {
     opacity: .5;
   }
 }
+
+/* Animated gradient keyframes for scrollbar */
+@keyframes scrollbarGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Custom Scrollbar Styles - Global (for page) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00E4FF 0%, #147BFF 50%, #00E4FF 100%);
+  background-size: 200% 200%;
+  animation: scrollbarGradient 3s ease infinite;
+  border-radius: 10px;
+  border: 2px solid #F9FAFB;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #147BFF 0%, #00E4FF 50%, #147BFF 100%);
+  background-size: 200% 200%;
+  animation: scrollbarGradient 2s ease infinite;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00E4FF #F9FAFB;
+}
+
+/* Custom Scrollbar for Chat */
+.chat-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: #F9FAFB;
+  border-radius: 10px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00E4FF 0%, #147BFF 50%, #00E4FF 100%);
+  background-size: 200% 200%;
+  animation: scrollbarGradient 3s ease infinite;
+  border-radius: 10px;
+  border: 1px solid #F9FAFB;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #147BFF 0%, #00E4FF 50%, #147BFF 100%);
+  background-size: 200% 200%;
+  animation: scrollbarGradient 2s ease infinite;
+}
+
+/* Firefox scrollbar for chat */
+.chat-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00E4FF #F9FAFB;
+}
