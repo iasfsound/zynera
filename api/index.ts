@@ -35,8 +35,7 @@ app.use((err: Error, req: Request, res: Response, next: express.NextFunction) =>
   });
 });
 
-// Export handler for Vercel
-export default function handler(req: Request, res: Response) {
-  return app(req, res);
-}
+// Export for Vercel serverless
+// Vercel with @vercel/node can handle Express apps directly
+export default app;
 
