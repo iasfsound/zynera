@@ -1,0 +1,3 @@
+# Ignore API folder - backend is deployed on Render
+api/
+
