@@ -1,97 +1,81 @@
-# Zynera API - Flow Finder Backend
+# Zynera API Backend
 
-Backend API para el asistente de diagnóstico Flow Finder de Zynera.
+Backend API para Zynera, desplegado en Render.
 
-## 🚀 Configuración
+## Estructura
 
-1. **Instalar dependencias:**
+```
+api/
+├── src/
+│   ├── index.ts          # Servidor Express principal
+│   ├── routes/           # Rutas de la API
+│   │   ├── diagnosis.ts
+│   │   ├── budget.ts
+│   │   ├── leads.ts
+│   │   ├── contact.ts
+│   │   └── chat.ts
+│   └── services/         # Servicios externos
+│       ├── openaiService.ts
+│       ├── openaiBudgetService.ts
+│       ├── openaiChatService.ts
+│       ├── airtableService.ts
+│       ├── emailService.ts
+│       └── notificationEmailService.ts
+├── package.json
+├── tsconfig.json
+└── render.yaml           # Configuración para Render
+```
+
+## Desarrollo Local
+
 ```bash
+# Instalar dependencias
 npm install
-```
 
-2. **Configurar variables de entorno:**
-```bash
-cp .env.example .env
-```
-
-Edita el archivo `.env` y añade tu API key de OpenAI:
-```
-OPENAI_API_KEY=tu_api_key_aqui
-```
-
-3. **Obtener API Key de OpenAI:**
-   - Ve a https://platform.openai.com/api-keys
-   - Crea una nueva API key
-   - Cópiala en el archivo `.env`
-
-## 🏃 Ejecutar
-
-**Desarrollo:**
-```bash
+# Ejecutar en modo desarrollo
 npm run dev
+
+# El servidor estará en http://localhost:3001
 ```
 
-**Producción:**
+## Build y Producción
+
 ```bash
+# Compilar TypeScript
 npm run build
+
+# Ejecutar producción
 npm start
 ```
 
-El servidor estará disponible en `http://localhost:3001`
+## Variables de Entorno
 
-## 📡 Endpoints
+Crea un archivo `.env` en la carpeta `api/` con:
 
-### POST `/api/diagnosis`
-
-Genera un diagnóstico personalizado basado en las respuestas del usuario.
-
-**Request:**
-```json
-{
-  "answers": [
-    {
-      "question": "¿En qué sector opera tu empresa?",
-      "answer": "Retail/E-commerce"
-    }
-  ]
-}
+```env
+NODE_ENV=development
+PORT=3001
+FRONTEND_URL=http://localhost:5173,http://localhost:3000
+AIRTABLE_API_KEY=tu_api_key
+AIRTABLE_BASE_ID=appJFEUIxvlpxcN3Z
+AIRTABLE_TABLE_NAME=LEADS
+OPENAI_API_KEY=tu_api_key
+OPENAI_MODEL=gpt-4o-mini
+RESEND_API_KEY=tu_api_key
+NOTIFICATION_EMAIL=guillermo@zynerapro.com
+EMAIL_FROM=guillermo@zynerapro.com
+EMAIL_FROM_NAME=Zynera
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "diagnosis": {
-    "title": "Automatización para E-commerce",
-    "summary": "...",
-    "recommendations": [...],
-    "priority": "high",
-    "estimatedImpact": "..."
-  }
-}
-```
+## Endpoints
 
-## 🔧 Configuración del Frontend
+- `GET /health` - Health check
+- `POST /api/diagnosis` - Generar diagnóstico
+- `POST /api/budget` - Generar presupuesto
+- `POST /api/leads` - Guardar lead
+- `POST /api/contact` - Formulario de contacto
+- `POST /api/chat` - Chat con asistente virtual
 
-Para que el frontend se conecte al backend, necesitas configurar un proxy en `vite.config.ts`:
+## Despliegue en Render
 
-```typescript
-export default defineConfig({
-  // ... otras configuraciones
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        changeOrigin: true
-      }
-    }
-  }
-})
-```
-
-## 📝 Notas
-
-- El backend usa `gpt-4o-mini` por defecto (más económico)
-- Si no hay API key configurada, devuelve un diagnóstico por defecto
-- El servidor incluye manejo de errores y CORS configurado
-
+Ver `DEPLOY_RENDER.md` para instrucciones detalladas.

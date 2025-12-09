@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: zynera-api
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        sync: false  # Se configurará manualmente en Render
+      - key: AIRTABLE_API_KEY
+        sync: false  # Se configurará manualmente en Render
+      - key: AIRTABLE_BASE_ID
+        sync: false  # Se configurará manualmente en Render
+      - key: AIRTABLE_TABLE_NAME
+        value: LEADS
+      - key: OPENAI_API_KEY
+        sync: false  # Se configurará manualmente en Render
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: RESEND_API_KEY
+        sync: false  # Se configurará manualmente en Render
+      - key: NOTIFICATION_EMAIL
+        sync: false  # Se configurará manualmente en Render
+      - key: EMAIL_FROM
+        sync: false  # Se configurará manualmente en Render
+      - key: EMAIL_FROM_NAME
+        value: Zynera
+
