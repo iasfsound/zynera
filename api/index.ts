@@ -23,11 +23,11 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Zynera API is running" });
 });
 
-// Routes
-app.use("/api", diagnosisRouter);
-app.use("/api", leadsRouter);
-app.use("/api", contactRouter);
-app.use("/api", budgetRouter);
+// Routes - Vercel already routes /api/* to this function, so we don't need /api prefix
+app.use("/", diagnosisRouter);
+app.use("/", leadsRouter);
+app.use("/", contactRouter);
+app.use("/", budgetRouter);
 
 // Error handling
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
