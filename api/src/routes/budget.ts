@@ -11,16 +11,16 @@ interface BudgetRequest {
 }
 
 router.post("/budget", async (req, res) => {
+  const { answers }: BudgetRequest = req.body;
+
+  if (!answers || !Array.isArray(answers) || answers.length === 0) {
+    return res.status(400).json({
+      error: "Invalid request",
+      message: "Answers array is required"
+    });
+  }
+
   try {
-    const { answers }: BudgetRequest = req.body;
-
-    if (!answers || !Array.isArray(answers) || answers.length === 0) {
-      return res.status(400).json({
-        error: "Invalid request",
-        message: "Answers array is required"
-      });
-    }
-
     const budget = await generateBudget(answers);
 
     res.json({

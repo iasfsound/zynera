@@ -204,7 +204,7 @@ export async function sendContactNotification(data: ContactFormData): Promise<bo
       await resendInstance.emails.send({
         from: `${fromName} <${fromEmail}>`,
         to: recipientEmail,
-        replyTo: data.email, // Para que puedas responder directamente
+        reply_to: data.email, // Para que puedas responder directamente
         subject: `Nuevo contacto: ${data.name}${data.company ? ` - ${data.company}` : ''}`,
         html: generateNotificationHTML(data),
         text: `

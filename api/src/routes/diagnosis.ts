@@ -11,16 +11,16 @@ interface DiagnosisRequest {
 }
 
 router.post("/diagnosis", async (req, res) => {
+  const { answers }: DiagnosisRequest = req.body;
+
+  if (!answers || !Array.isArray(answers) || answers.length === 0) {
+    return res.status(400).json({
+      error: "Invalid request",
+      message: "Answers array is required"
+    });
+  }
+
   try {
-    const { answers }: DiagnosisRequest = req.body;
-
-    if (!answers || !Array.isArray(answers) || answers.length === 0) {
-      return res.status(400).json({
-        error: "Invalid request",
-        message: "Answers array is required"
-      });
-    }
-
     const diagnosis = await generateDiagnosis(answers);
 
     res.json({
