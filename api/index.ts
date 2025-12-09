@@ -1,13 +1,10 @@
 // Vercel serverless function wrapper for Express app
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import { diagnosisRouter } from "./src/routes/diagnosis.js";
 import { leadsRouter } from "./src/routes/leads.js";
 import { contactRouter } from "./src/routes/contact.js";
 import { budgetRouter } from "./src/routes/budget.js";
-
-// Load environment variables (Vercel provides them automatically, but this helps in development)
-// In Vercel, environment variables are automatically available, no need for dotenv
 
 const app = express();
 
@@ -19,7 +16,7 @@ app.use(cors({
 app.use(express.json());
 
 // Health check
-app.get("/health", (req, res) => {
+app.get("/health", (req: Request, res: Response) => {
   res.json({ status: "ok", message: "Zynera API is running" });
 });
 
@@ -30,7 +27,7 @@ app.use("/", contactRouter);
 app.use("/", budgetRouter);
 
 // Error handling
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, req: Request, res: Response, next: express.NextFunction) => {
   console.error("Error:", err);
   res.status(500).json({
     error: "Internal server error",
@@ -38,6 +35,8 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   });
 });
 
-// Export for Vercel serverless
-export default app;
+// Export handler for Vercel
+export default function handler(req: Request, res: Response) {
+  return app(req, res);
+}
 
