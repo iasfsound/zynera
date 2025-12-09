@@ -38,9 +38,9 @@ export function Hero() {
       setSubmitted(true);
 
       setTimeout(() => {
-        setFormData({ name: "", email: "", phone: "", message: "" });
+    setFormData({ name: "", email: "", phone: "", message: "" });
         setSubmitted(false);
-        setShowContactForm(false);
+    setShowContactForm(false);
       }, 2000);
     } catch (error) {
       console.error("Error al enviar:", error);
@@ -199,68 +199,68 @@ export function Hero() {
                       onSubmit={handleSubmit}
                       className="p-8 space-y-6"
                     >
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-gray-700">Nombre</label>
-                          <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            placeholder="Tu nombre"
-                            className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
-                            required
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">Nombre</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Tu nombre"
+                        className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                        required
                             disabled={isLoading}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium text-gray-700">Email</label>
-                          <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            placeholder="tu@email.com"
-                            className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
-                            required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="tu@email.com"
+                        className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                        required
                             disabled={isLoading}
-                          />
-                        </div>
-                      </div>
+                      />
+                    </div>
+                  </div>
 
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-700">Teléfono (opcional)</label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          placeholder="+34 123 456 789"
-                          className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Teléfono (opcional)</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+34 123 456 789"
+                      className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors"
                           disabled={isLoading}
-                        />
-                      </div>
+                    />
+                  </div>
 
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-700">Cuéntanos sobre tu proyecto</label>
-                        <textarea
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          placeholder="¿Qué desafíos tienes? ¿Qué esperas lograr?"
-                          rows={5}
-                          className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors resize-none"
-                          required
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Cuéntanos sobre tu proyecto</label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      placeholder="¿Qué desafíos tienes? ¿Qué esperas lograr?"
+                      rows={5}
+                      className="w-full px-4 py-3 rounded-lg border border-[#E4E7EB] bg-[#F9FAFB] focus:outline-none focus:border-[#00E4FF] focus:ring-1 focus:ring-[#00E4FF]/50 transition-colors resize-none"
+                      required
                           disabled={isLoading}
-                        />
-                      </div>
+                    />
+                  </div>
 
-                      <div className="flex gap-4 pt-4">
-                        <button
-                          type="submit"
+                  <div className="flex gap-4 pt-4">
+                    <button
+                      type="submit"
                           disabled={isLoading}
                           className="flex-1 px-6 py-3 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#00E4FF]/25 transition-all hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
-                        >
+                    >
                           {isLoading ? (
                             <>
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -269,16 +269,16 @@ export function Hero() {
                           ) : (
                             "Enviar mensaje"
                           )}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setShowContactForm(false)}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowContactForm(false)}
                           disabled={isLoading}
                           className="flex-1 px-6 py-3 border border-[#E4E7EB] text-gray-700 font-medium rounded-lg hover:bg-[#F9FAFB] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Cancelar
-                        </button>
-                      </div>
+                    >
+                      Cancelar
+                    </button>
+                  </div>
                     </motion.form>
                   )}
                 </AnimatePresence>
