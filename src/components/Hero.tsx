@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Calendar, X, Loader2, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AnimatedGradientButton } from "./AnimatedGradientButton";
+import heroVideo from "../assets/zynera-hero.webm";
 
 export function Hero() {
   const [showContactForm, setShowContactForm] = useState(false);
@@ -140,6 +141,19 @@ export function Hero() {
                     </linearGradient>
                   </defs>
                 </svg>
+                
+                {/* Animación centrada y superpuesta */}
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <video 
+                    src={heroVideo} 
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{ width: '150px', height: '150px' }}
+                    className="object-contain drop-shadow-lg"
+                  />
+                </div>
               </div>
             </div>
           </motion.div>
