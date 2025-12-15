@@ -2,7 +2,8 @@ import { useState } from "react";
 import { ArrowRight, Calendar, X, Loader2, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AnimatedGradientButton } from "./AnimatedGradientButton";
-import heroVideo from "../assets/zynera-hero.webm";
+import heroVideoWebm from "../assets/zynera-hero.webm";
+import heroVideoMov from "../assets/zynera-hero.mov";
 
 export function Hero() {
   const [showContactForm, setShowContactForm] = useState(false);
@@ -143,16 +144,30 @@ export function Hero() {
                 </svg>
                 
                 {/* Animación centrada y superpuesta */}
-                <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="absolute inset-0 flex items-center justify-center z-10" style={{ backgroundColor: 'transparent' }}>
                   <video 
-                    src={heroVideo} 
                     autoPlay
                     loop
                     muted
                     playsInline
-                    style={{ width: '150px', height: '150px' }}
-                    className="object-contain drop-shadow-lg"
-                  />
+                    preload="auto"
+                    style={{ 
+                      width: '150px', 
+                      height: '150px',
+                      backgroundColor: 'transparent',
+                      mixBlendMode: 'normal',
+                      objectFit: 'contain'
+                    } as React.CSSProperties}
+                    className="drop-shadow-lg"
+                    onLoadedMetadata={(e) => {
+                      // Forzar renderizado de transparencia
+                      const video = e.currentTarget;
+                      video.style.opacity = '1';
+                    }}
+                  >
+                    <source src={heroVideoMov} type="video/quicktime" />
+                    <source src={heroVideoWebm} type="video/webm" />
+                  </video>
                 </div>
               </div>
             </div>
