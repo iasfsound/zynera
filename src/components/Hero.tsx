@@ -80,9 +80,9 @@ export function Hero() {
   };
 
   return (
-    <section className="relative z-10 px-6 py-20 md:py-32 lg:py-40 pt-32 md:pt-40 overflow-hidden">
+    <section className="relative z-10 px-6 min-h-screen flex items-center justify-center pt-32 md:pt-40 pb-32 md:pb-40 lg:pb-48" style={{ minHeight: '100vh' }}>
       <FloatingBalls />
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 w-full py-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <div className="space-y-8">

@@ -32,13 +32,10 @@ export function FloatingBalls() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Ajustar tamaño del canvas al contenedor
+    // Ajustar tamaño del canvas al viewport completo
     const getCanvasSize = () => {
-      const rect = canvas.getBoundingClientRect();
-      // Usar offsetWidth/offsetHeight como respaldo si getBoundingClientRect no funciona
-      const width = rect.width || canvas.offsetWidth || window.innerWidth;
-      const height = rect.height || canvas.offsetHeight || window.innerHeight;
-      return { width, height };
+      // Usar el viewport completo para asegurar que cubra toda la pantalla
+      return { width: window.innerWidth, height: window.innerHeight };
     };
 
     const resizeCanvas = () => {
@@ -91,10 +88,9 @@ export function FloatingBalls() {
 
     // Manejar movimiento del mouse relativo al canvas (usando ref para evitar re-renders)
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
       mousePosRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
+        x: e.clientX,
+        y: e.clientY,
       };
     };
 
@@ -190,8 +186,8 @@ export function FloatingBalls() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none z-0 w-full h-full"
-      style={{ background: 'transparent' }}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ background: 'transparent', width: '100vw', height: '100vh' }}
     />
   );
 }
