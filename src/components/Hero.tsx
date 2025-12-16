@@ -148,8 +148,8 @@ export function Hero() {
                     src={heroAnimation} 
                     alt="Zynera Animation" 
                     style={{ 
-                      width: '150px', 
-                      height: '150px',
+                      width: '250px', 
+                      height: '250px',
                       backgroundColor: 'transparent',
                       objectFit: 'contain'
                     }}
