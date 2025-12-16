@@ -38,6 +38,12 @@ export function FloatingBalls() {
       return { width: window.innerWidth, height: window.innerHeight };
     };
 
+    const getBallCount = (width: number) => {
+      if (width < 640) return 10;      // móviles
+      if (width < 1024) return 18;     // tablets
+      return 30;                       // desktop
+    };
+
     const resizeCanvas = () => {
       const { width, height } = getCanvasSize();
       const dpr = window.devicePixelRatio || 1;
@@ -47,6 +53,26 @@ export function FloatingBalls() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
     };
+
+    const initBalls = () => {
+      const { width, height } = getCanvasSize();
+      const ballCount = getBallCount(width);
+      const balls: Ball[] = [];
+
+      for (let i = 0; i < ballCount; i++) {
+        balls.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 60 + 20, // Tamaño entre 20 y 80
+          speed: Math.random() * 0.5 + 0.2, // Velocidad hacia arriba
+          opacity: Math.random() * 0.5 + 0.2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 0.5, // Velocidad horizontal aleatoria
+          vy: -Math.random() * 0.5 - 0.2, // Velocidad hacia arriba
+        });
+      }
+      ballsRef.current = balls;
+    };
     
     // Inicializar después de que el DOM esté listo
     const initialize = () => {
@@ -55,24 +81,7 @@ export function FloatingBalls() {
       
       // Solo inicializar si tenemos un tamaño válido
       if (width > 0 && height > 0) {
-        // Inicializar bolas
-        const balls: Ball[] = [];
-        const ballCount = 30;
-
-        for (let i = 0; i < ballCount; i++) {
-          balls.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * 60 + 20, // Tamaño entre 20 y 80
-            speed: Math.random() * 0.5 + 0.2, // Velocidad hacia arriba
-            opacity: Math.random() * 0.5 + 0.2,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            vx: (Math.random() - 0.5) * 0.5, // Velocidad horizontal aleatoria
-            vy: -Math.random() * 0.5 - 0.2, // Velocidad hacia arriba
-          });
-        }
-        ballsRef.current = balls;
-        
+        initBalls();
         // Iniciar animación
         animate();
       } else {
@@ -84,7 +93,11 @@ export function FloatingBalls() {
     // Esperar un frame para asegurar que el DOM esté listo
     requestAnimationFrame(initialize);
 
-    window.addEventListener('resize', resizeCanvas);
+    const handleResize = () => {
+      resizeCanvas();
+      initBalls();
+    };
+    window.addEventListener('resize', handleResize);
 
     // Manejar movimiento del mouse relativo al canvas (usando ref para evitar re-renders)
     const handleMouseMove = (e: MouseEvent) => {
@@ -175,7 +188,7 @@ export function FloatingBalls() {
     };
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
