@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { ArrowRight, Calendar, X, Loader2, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AnimatedGradientButton } from "./AnimatedGradientButton";
+import { FloatingBalls } from "./FloatingBalls";
 import heroAnimation from "../assets/zynera-hero.webp";
 
 export function Hero() {
@@ -79,8 +80,9 @@ export function Hero() {
   };
 
   return (
-    <section className="relative z-10 px-6 py-20 md:py-32 lg:py-40 pt-32 md:pt-40">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative z-10 px-6 py-20 md:py-32 lg:py-40 pt-32 md:pt-40 overflow-hidden">
+      <FloatingBalls />
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <div className="space-y-8">
