@@ -249,16 +249,27 @@ export function CTA() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="flex-1 px-6 py-3 bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#00E4FF]/25 transition-all hover:scale-105 flex items-center justify-center gap-2"
+                        className="relative flex-1 px-6 py-3 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-[#00E4FF]/25 transition-all hover:scale-105 flex items-center justify-center gap-2 overflow-hidden"
                       >
-                        {isLoading ? (
-                          <>
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                            Enviando...
-                          </>
-                        ) : (
-                          "Enviar mensaje"
-                        )}
+                        {/* Degradado animado de fondo */}
+                        <div 
+                          className="absolute inset-0 opacity-100"
+                          style={{
+                            background: "linear-gradient(90deg, #00E4FF, #147BFF, #00E4FF)",
+                            backgroundSize: "200% 100%",
+                            animation: "gradientShift 3s ease infinite",
+                          }}
+                        />
+                        <span className="relative z-10">
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              Enviando...
+                            </>
+                          ) : (
+                            "Enviar mensaje"
+                          )}
+                        </span>
                       </button>
                       <button
                         type="button"
@@ -272,8 +283,22 @@ export function CTA() {
                     {/* Contact info */}
                     <div className="pt-4 border-t border-[#E4E7EB] text-center">
                       <p className="text-sm text-gray-600 mb-2">O llámanos directamente para agendar una consulta:</p>
-                      <a href="tel:+34614095478" className="text-lg font-semibold text-[#00E4FF] hover:text-[#147BFF] transition-colors">
-                        +34 614 095 478
+                      <a 
+                        href="tel:+34614095478" 
+                        className="relative inline-block text-lg font-semibold"
+                      >
+                        <span 
+                          className="bg-clip-text text-transparent"
+                          style={{
+                            background: "linear-gradient(90deg, #00E4FF, #147BFF, #00E4FF)",
+                            backgroundSize: "200% 100%",
+                            animation: "gradientShift 3s ease infinite",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                          }}
+                        >
+                          +34 614 095 478
+                        </span>
                       </a>
                     </div>
                   </form>

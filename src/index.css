@@ -2002,6 +2002,19 @@ html {
   }
 }
 
+/* Animated gradient keyframes for buttons and text */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* Custom Scrollbar Styles - Global (for page) */
 ::-webkit-scrollbar {
   width: 10px;
