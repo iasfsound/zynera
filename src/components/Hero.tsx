@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ArrowRight, Calendar, X, Loader2, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AnimatedGradientButton } from "./AnimatedGradientButton";
@@ -9,6 +9,33 @@ export function Hero() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const animationRef = useRef<HTMLImageElement>(null);
+
+  // Forzar repetición continua de la animación WebP
+  useEffect(() => {
+    const img = animationRef.current;
+    if (!img) return;
+
+    // Función para reiniciar la animación
+    const restartAnimation = () => {
+      const currentSrc = img.src.split('?')[0]; // Remover query params existentes
+      img.src = '';
+      // Usar requestAnimationFrame para asegurar que el navegador procese el cambio
+      requestAnimationFrame(() => {
+        img.src = `${currentSrc}?t=${Date.now()}`;
+      });
+    };
+
+    // Reiniciar la animación periódicamente para asegurar repetición continua
+    // Esto funciona incluso si el WebP no está configurado para loop infinito
+    const animationInterval = setInterval(() => {
+      if (img.complete) {
+        restartAnimation();
+      }
+    }, 20000); // Reiniciar cada 20 segundos para mantener la animación activa
+
+    return () => clearInterval(animationInterval);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -145,7 +172,8 @@ export function Hero() {
                 {/* Animación centrada y superpuesta */}
                 <div className="absolute inset-0 flex items-center justify-center z-10" style={{ backgroundColor: 'transparent' }}>
                   <img 
-                    src={heroAnimation} 
+                    ref={animationRef}
+                    src={heroAnimation}
                     alt="Zynera Animation" 
                     style={{ 
                       width: '250px', 
