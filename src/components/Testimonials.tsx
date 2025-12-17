@@ -3,6 +3,7 @@ import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollReveal } from "./ScrollReveal";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLowMotion } from "../hooks/useLowMotion";
 
 const testimonials = [
   {
@@ -44,6 +45,7 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const lowMotion = useLowMotion();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(3);
 
@@ -64,12 +66,14 @@ export function Testimonials() {
   }, []);
 
   useEffect(() => {
+    if (lowMotion) return;
+
     const timer = setInterval(() => {
       handleNext();
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(timer);
-  }, [currentIndex, slidesToShow]);
+  }, [currentIndex, slidesToShow, lowMotion]);
 
   const handleNext = () => {
     setCurrentIndex((prev) => 

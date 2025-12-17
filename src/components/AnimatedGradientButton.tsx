@@ -1,5 +1,6 @@
 import { useRef, useState, MouseEvent } from "react";
 import { ArrowRight } from "lucide-react";
+import { useLowMotion } from "../hooks/useLowMotion";
 
 interface AnimatedGradientButtonProps {
   onClick?: () => void;
@@ -16,6 +17,7 @@ export function AnimatedGradientButton({
   size = "md",
   showArrow = true,
 }: AnimatedGradientButtonProps) {
+  const lowMotion = useLowMotion();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
@@ -46,17 +48,21 @@ export function AnimatedGradientButton({
       onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`group relative ${sizeClasses[size]} bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white rounded-xl overflow-hidden transition-all hover:shadow-lg hover:shadow-[#00E4FF]/25 hover:scale-105 ${className}`}
+      className={`group relative ${sizeClasses[size]} bg-gradient-to-r from-[#00E4FF] to-[#147BFF] text-white rounded-xl overflow-hidden transition-all hover:shadow-lg hover:shadow-[#00E4FF]/25 ${
+        lowMotion ? "" : "hover:scale-105"
+      } ${className}`}
     >
       {/* Degradado animado de fondo (animación continua) */}
-      <div 
-        className="absolute inset-0 opacity-100"
-        style={{
-          background: "linear-gradient(90deg, #00E4FF, #147BFF, #00E4FF)",
-          backgroundSize: "200% 100%",
-          animation: "gradientShift 3s ease infinite",
-        }}
-      />
+      {!lowMotion && (
+        <div 
+          className="absolute inset-0 opacity-100"
+          style={{
+            background: "linear-gradient(90deg, #00E4FF, #147BFF, #00E4FF)",
+            backgroundSize: "200% 100%",
+            animation: "gradientShift 3s ease infinite",
+          }}
+        />
+      )}
       
       {/* Degradado que sigue el cursor */}
       <div

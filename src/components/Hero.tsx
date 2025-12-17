@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from "motion/react";
 import { AnimatedGradientButton } from "./AnimatedGradientButton";
 import { FloatingBalls } from "./FloatingBalls";
 import heroAnimation from "../assets/zynera-hero.webp";
+import { useLowMotion } from "../hooks/useLowMotion";
 
 export function Hero() {
+  const lowMotion = useLowMotion();
   const [showContactForm, setShowContactForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +16,8 @@ export function Hero() {
 
   // Forzar repetición continua de la animación WebP
   useEffect(() => {
+    if (lowMotion) return;
+
     const img = animationRef.current;
     if (!img) return;
 
@@ -36,7 +40,7 @@ export function Hero() {
     }, 20000); // Reiniciar cada 20 segundos para mantener la animación activa
 
     return () => clearInterval(animationInterval);
-  }, []);
+  }, [lowMotion]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -81,7 +85,7 @@ export function Hero() {
 
   return (
     <section className="relative z-10 px-6 min-h-screen flex items-center justify-center pt-32 md:pt-40 pb-32 md:pb-40 lg:pb-48" style={{ minHeight: '100vh' }}>
-      <FloatingBalls />
+      {!lowMotion && <FloatingBalls />}
       <div className="max-w-7xl mx-auto relative z-10 w-full py-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
@@ -294,11 +298,17 @@ export function Hero() {
               {/* Main circle */}
               <div className="relative w-full h-full">
                 {/* Orbiting elements */}
-                <div className="absolute inset-0 animate-spin" style={{ animationDuration: '20s' }}>
+                <div
+                  className={`absolute inset-0 ${lowMotion ? "" : "animate-spin"}`}
+                  style={!lowMotion ? { animationDuration: "20s" } : undefined}
+                >
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-[#00E4FF] to-[#147BFF]" />
                 </div>
                 
-                <div className="absolute inset-8 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}>
+                <div
+                  className={`absolute inset-8 ${lowMotion ? "" : "animate-spin"}`}
+                  style={!lowMotion ? { animationDuration: "15s", animationDirection: "reverse" } : undefined}
+                >
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#00E4FF]/60" />
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#147BFF]/60" />
                 </div>

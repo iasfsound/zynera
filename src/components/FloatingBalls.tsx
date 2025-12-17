@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLowMotion } from "../hooks/useLowMotion";
 
 interface Ball {
   x: number;
@@ -12,6 +13,7 @@ interface Ball {
 }
 
 export function FloatingBalls() {
+  const lowMotion = useLowMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePosRef = useRef({ x: -1000, y: -1000 }); // Inicializar fuera del canvas
   const ballsRef = useRef<Ball[]>([]);
@@ -26,6 +28,11 @@ export function FloatingBalls() {
   ];
 
   useEffect(() => {
+    // Desactivar completamente en móvil / reduced motion
+    if (lowMotion) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -39,9 +46,9 @@ export function FloatingBalls() {
     };
 
     const getBallCount = (width: number) => {
-      if (width < 640) return 10;      // móviles
-      if (width < 1024) return 18;     // tablets
-      return 30;                       // desktop
+      if (width < 640) return 4;      // móviles (mucho menos)
+      if (width < 1024) return 10;    // tablets
+      return 18;                      // desktop
     };
 
     const resizeCanvas = () => {
@@ -63,12 +70,12 @@ export function FloatingBalls() {
         balls.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: Math.random() * 60 + 20, // Tamaño entre 20 y 80
-          speed: Math.random() * 0.5 + 0.2, // Velocidad hacia arriba
-          opacity: Math.random() * 0.5 + 0.2,
+          size: Math.random() * 40 + 14, // Tamaño menor para móvil/rendimiento
+          speed: Math.random() * 0.4 + 0.15,
+          opacity: Math.random() * 0.45 + 0.2,
           color: colors[Math.floor(Math.random() * colors.length)],
-          vx: (Math.random() - 0.5) * 0.5, // Velocidad horizontal aleatoria
-          vy: -Math.random() * 0.5 - 0.2, // Velocidad hacia arriba
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: -Math.random() * 0.4 - 0.15,
         });
       }
       ballsRef.current = balls;
@@ -194,7 +201,11 @@ export function FloatingBalls() {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []); // Sin dependencias para que solo se ejecute una vez
+  }, [lowMotion]);
+
+  if (lowMotion) {
+    return null;
+  }
 
   return (
     <canvas

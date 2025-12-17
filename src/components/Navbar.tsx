@@ -4,9 +4,11 @@ import { useForm } from "../context/FormContext";
 import LogoColor from "../assets/logos/Logo color.png";
 import Letras from "../assets/logos/LETRAS.png";
 import { AnimatedGradientButton } from "./AnimatedGradientButton";
+import { useLowMotion } from "../hooks/useLowMotion";
 
 export function Navbar({ setCurrentPage }: { setCurrentPage: (page: "home" | "privacy" | "terms" | "legal" | "cookies") => void }) {
   const { setShowCtaForm } = useForm();
+  const lowMotion = useLowMotion();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -61,8 +63,8 @@ export function Navbar({ setCurrentPage }: { setCurrentPage: (page: "home" | "pr
             <img 
               src={LogoColor} 
               alt="Zynera Logo" 
-              className="h-10 transition-transform group-hover:scale-110 animate-spin"
-              style={{ animationDuration: '5s' }}
+              className={`h-10 transition-transform group-hover:scale-110 ${lowMotion ? "" : "animate-spin"}`}
+              style={lowMotion ? undefined : { animationDuration: '5s' }}
             />
             <div className="flex flex-col">
               <img 
